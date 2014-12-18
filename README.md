@@ -7,7 +7,7 @@ To install:
 
 `bower install angular-simple-spinner`
 
-Add /angular_simple_spinner.js and dist/angular-simple-spinner.css to your index.html.:
+Add /angular_simple_spinner.js and /angular-simple-spinner.css to your index.html.:
 
 ```html
 <script src="bower_components/angular-simple-spinner/angular_simple_spinner.js"></script>

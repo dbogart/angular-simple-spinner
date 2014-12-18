@@ -15,7 +15,6 @@
   ],
   "license": "MIT",
   "homepage": "http://www.dbogs.com",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",

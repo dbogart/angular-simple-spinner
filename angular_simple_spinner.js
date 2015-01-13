@@ -42,6 +42,7 @@
 
 			$rootScope.$on('$stateChangeStart', showElement);
 			$rootScope.$on('$stateChangeSuccess', hideElement);
+			$rootScope.$on('$stateChangeError', hideElement);
 			scope.$on('$destroy', hideElement);
 			
 			/**

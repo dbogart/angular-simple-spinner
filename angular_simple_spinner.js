@@ -1,26 +1,69 @@
-angular.module('angularSimpleSpinner',['ui.router', 'ngSanitize']);
-angular.module('angularSimpleSpinner').directive('simpleSpinner', function($rootScope) {
+;(function(ng, undefined) {
 
-    return {
+	ng.module('angularSimpleSpinner', ['ui.router', 'ngSanitize']);
+	ng.module('angularSimpleSpinner')
+		.directive('simpleSpinner', simpleSpinner);
 
-        restrict : "ECA",
-        transclude : true,
-        template : "<div class=\"angular-center-container\">\
-                        <div class=\"angular-centered\" ng-transclude>\
-                        </div>\
-                    </div>",
+	/**
+	 * Adding our dependencies to $inject so the module may be minified.
+	 * @type {array}
+	 * @public
+	 */
+	simpleSpinner.$inject = ['$rootScope'];
 
-        link: function(scope, element) {
+	/**
+	 * Our directive.
+	 * @public
+	 * @name simpleSpinner
+	 * @memberOf angularSimpleSpinner
+	 * @param {object} $rootScope
+	 * @return {object}
+	 */
+	function simpleSpinner($rootScope) {
+		// Must assign dependencies before a return statement. Doing this so the file can be minified.
+		simpleSpinnerLink.$inject = ['scope', 'element'];
 
-            element.addClass('ng-hide');
+		// Return our directive declaration
+		return {
+			restrict : "ECA",
+			transclude : true,
+			template : '<div class="angular-center-container"><div class="angular-centered" ng-transclude></div></div>',
+			link: simpleSpinnerLink
+		};
+		
+		/**
+		 * Our directives' link.
+		 * @public
+		 * @name simpleSpinnerLink
+		 * @memberOf {angularSimpleSpinner.simpleSpinner}
+		 */
+		function simpleSpinnerLink(scope, element) {
+			hideElement();
 
-            var unregister = $rootScope.$on('$stateChangeStart', function() {
-                element.removeClass('ng-hide');
-            });
-            $rootScope.$on('$stateChangeSuccess', function() {
-                element.addClass('ng-hide');
-            });
-            scope.$on('$destroy', unregister);
-        }
-    };
-});
+			$rootScope.$on('$stateChangeStart', showElement);
+			$rootScope.$on('$stateChangeSuccess', hideElement);
+			scope.$on('$destroy', hideElement);
+			
+			/**
+			 * Hides the spinner.
+			 * @private
+			 * @name showElement
+			 * @memberOf {angularSimpleSpinner.simpleSpinner.simpleSpinnerLink}
+			 */
+			function showElement() {
+				element.removeClass('ng-hide');
+			}
+
+			/**
+			 * Shows the spinner.
+			 * @private
+			 * @name showElement
+			 * @memberOf {angularSimpleSpinner.simpleSpinner.simpleSpinnerLink}
+			 */
+			function hideElement() {
+				element.addClass('ng-hide');
+			}
+		}
+	}
+
+})(angular);
